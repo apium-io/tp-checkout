@@ -95,13 +95,13 @@
             "crypto": "sol",
             "fiat": "usd",
             "paymentMethod": "debitcard",
-            "amount": 121232,
+            "amount": config.amount,
             "walletAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
             "type": "onramp",
             "country": "us",
             "onramp": "gatefi",
-            "merchantKey": "tpay-b-6l6xqUfgBFPsf-AFp4bOm-1726798024849-fx7UzupSeEIU0_RJOWknj",
-            "merchantTransactionReference": "merchRefSample1234",
+            "merchantKey": config.merchantKey,
+            "merchantTransactionReference": config.merchantTransactionReference,
             "userEmail": "adithya@apium.io"
         });
 
