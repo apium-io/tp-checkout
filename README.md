@@ -22,10 +22,10 @@ To use the ThirdPay widget, follow these steps:
 
 ### Including the JavaScript File
 
-You need to include the `tp-checkout.js` from jsdelivr in your HTML file before using the widget:
+You need to include the `tp-checkout.js` from statically in your HTML file before using the widget:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/apium-io/tp-checkout@main/tp-checkout.js"></script>
+<script src="https://cdn.statically.io/gh/apium-io/tp-checkout/main/tp-checkout.js"></script>
 ```
 
 ---
