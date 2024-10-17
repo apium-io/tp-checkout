@@ -20,8 +20,11 @@
                     </div>
                     <div style="display: flex; justify-content: center; padding: 20px; ">
                         <button id="thirdpay-button" 
-                        style="background-color: #34b6f8; color: #000000; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; width: 100%; font-size: 15px;">
-                            Pay with Unlimit
+                        style="background-color: #34b6f8; color: #000000; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; width: 100%; font-size: 15px; position: relative;">
+                            
+                            <span id="thirdpay-button-text">Pay with Unlimit</span>
+                            <span id="thirdpay-loading-text" style="display: none;">Initializing Payment...</span>
+                            
                         </button>
                     </div>
                 </div>
@@ -54,7 +57,7 @@
                 popupContainer.style.left = '0';
                 popupContainer.style.width = '100%';
                 popupContainer.style.height = '100%';
-                popupContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+                popupContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.20)';
                 popupContainer.style.zIndex = '9999';
                 popupContainer.style.display = 'flex';
                 popupContainer.style.justifyContent = 'center';
@@ -91,18 +94,25 @@
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
+        // Fetch merchant data to get the wallet address
+        let merchantData = await fetchMerchantData(config);
+        if (!merchantData || !merchantData.waletAddress) {
+            console.error('Error: Unable to fetch wallet address from merchant data');
+            return null;
+        }
+
         var raw = JSON.stringify({
             "crypto": "sol",
             "fiat": "usd",
             "paymentMethod": "debitcard",
             "amount": config.amount,
-            "walletAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+            "walletAddress": merchantData.waletAddress,
             "type": "onramp",
             "country": "us",
             "onramp": "gatefi",
             "merchantKey": config.merchantKey,
             "merchantTransactionReference": config.merchantTransactionReference,
-            "userEmail": "adithya@apium.io"
+            "userEmail": merchantData.userEmailId
         });
 
         var requestOptions = {
@@ -111,6 +121,9 @@
             body: raw,
             redirect: 'follow'
         };
+
+        // Show loading icon
+        showLoadingIcon();
 
         try {
             let response = await fetch("https://ghesup2kz6.execute-api.eu-central-1.amazonaws.com/dev/transactions/merchant/checkout", requestOptions);
@@ -123,9 +136,51 @@
         } catch (error) {
             console.error('Error:', error);
             return null;
+        } finally {
+            // Hide loading icon
+            hideLoadingIcon();
         }
     }
 
+    async function fetchMerchantData(config) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+     
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        showLoadingIcon();
+
+        try {
+            let response = await fetch("https://ghesup2kz6.execute-api.eu-central-1.amazonaws.com/dev/merchant/checkout-widgets?merchantKey=" + config.merchantKey, requestOptions);
+            let result = await response.json();
+            if (result.status === "Success" && result.data) {
+                return result.data?.widgetData;
+            } else {
+                throw new Error("Invalid response structure");
+            }
+        } catch (error) {
+            console.error('ThirdPay Widget: Error fetching merchant data -', error);
+            return null;
+        } finally {
+            hideLoadingIcon();
+        }
+    }
+
+    function hideLoadingIcon() {
+        document.getElementById('thirdpay-loading-text').style.display = 'none';
+        document.getElementById('thirdpay-button-text').style.display = 'block';
+    }
+
+    function showLoadingIcon() {
+        document.getElementById('thirdpay-loading-text').style.display = 'block';
+        document.getElementById('thirdpay-button-text').style.display = 'none';
+    }
+    
     // Expose the widget initialization globally
     window.ThirdPay = {
         init: initThirdPayWidget

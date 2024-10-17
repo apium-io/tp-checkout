@@ -22,10 +22,10 @@ To use the ThirdPay widget, follow these steps:
 
 ### Including the JavaScript File
 
-You need to include the `tpay.js` script in your HTML file before using the widget:
+You need to include the `tp-checkout.js` from jsdelivr in your HTML file before using the widget:
 
 ```html
-<script src="tpay.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/apium-io/tp-checkout@main/tp-checkout.js"></script>
 ```
 
 ---
@@ -39,7 +39,7 @@ You can initialize the widget with a simple script block where you provide your 
     ThirdPay.init({
         merchantKey: 'your-merchant-key',
         merchantTransactionReference: 'your-transaction-reference',
-        amount: 10, // Payment amount (Example: 10 EUR)
+        amount: 10, // Payment amount 
         container: 'thirdpay-container' // The container ID where the widget will be rendered
     });
 </script>
@@ -49,7 +49,7 @@ You can initialize the widget with a simple script block where you provide your 
 
 - **merchantKey**: Your unique merchant key provided by ThirdPay.
 - **merchantTransactionReference**: A unique transaction reference for the current payment.
-- **amount**: The payment amount (in EUR or your local currency).
+- **amount**: The payment amount
 - **container**: The ID of the HTML element where the widget will be embedded.
 
 ---
