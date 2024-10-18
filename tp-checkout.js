@@ -8,7 +8,9 @@
         }
 
         // Wait until the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {                        
+            injectCustomCss();
+
             // Create the widget container (button)
             var widgetContainer = document.createElement('div');
             widgetContainer.style.width = '100%';
@@ -179,6 +181,34 @@
     function showLoadingIcon() {
         document.getElementById('thirdpay-loading-text').style.display = 'block';
         document.getElementById('thirdpay-button-text').style.display = 'none';
+    }
+    
+    function injectCustomCss() {
+        var customCss = `
+            #thirdpay-button {
+                background-color: #34b6f8; 
+                color: #000000; 
+                padding: 10px 20px; 
+                border: none; 
+                border-radius: 25px; 
+                cursor: pointer; 
+                width: 100%; 
+                font-size: 15px; 
+                position: relative;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            #thirdpay-button:hover {
+                background-color: #6fcfff !important;
+            }
+        `;
+        var styleElement = document.createElement('style');
+        styleElement.type = 'text/css';
+        if (styleElement.styleSheet) {
+            styleElement.styleSheet.cssText = customCss;
+        } else {
+            styleElement.appendChild(document.createTextNode(customCss));
+        }
+        document.head.appendChild(styleElement);
     }
     
     // Expose the widget initialization globally
