@@ -22,7 +22,7 @@
                         <button id="thirdpay-button" 
                         style="background-color: #34b6f8; color: #000000; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; width: 100%; font-size: 15px; position: relative;">
                             
-                            <span id="thirdpay-button-text">Pay with Unlimit</span>
+                            <span id="thirdpay-button-text">Pay Now, Earn Cashback!</span>
                             <span id="thirdpay-loading-text" style="display: none;">Initializing Payment...</span>
                             
                         </button>
@@ -102,7 +102,7 @@
         }
 
         var raw = JSON.stringify({
-            "crypto": "sol",
+            "crypto": "USDT-BEP20",
             "fiat": "usd",
             "paymentMethod": "debitcard",
             "amount": config.amount,
