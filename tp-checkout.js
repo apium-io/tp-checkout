@@ -102,7 +102,7 @@
         }
 
         var raw = JSON.stringify({
-            "crypto": "USDT-BEP20",
+            "crypto": "sandbox",
             "fiat": "usd",
             "paymentMethod": "debitcard",
             "amount": config.amount,
