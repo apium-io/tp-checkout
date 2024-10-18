@@ -198,7 +198,7 @@
                 transition: background-color 0.3s ease, color 0.3s ease;
             }
             #thirdpay-button:hover {
-                background-color: #6fcfff !important;
+                background-color: #6fcfff    !important;
             }
         `;
         var styleElement = document.createElement('style');
